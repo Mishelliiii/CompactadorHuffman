@@ -6,31 +6,58 @@
  * Autora: Mishelle sousa silva
  */
 
-public class RegistroOcorrencia implements Comparable{
+
+//Essa class serve para registrar a ocorrencia e caracteres
+public class RegistroOcorrencia implements Comparable//class registroOcorrencia comparavel
+{
+	//atributos
     private char caracter;
     private int ocorrencia;
+    private String ocor;
 
-    public RegistroOcorrencia(char caracter, int ocorrencia) {
+    public RegistroOcorrencia(char caracter, int ocorrencia)//construtor que recebe um char e um int como parametro
+    {
+		//inicio
         this.caracter = caracter;
         this.ocorrencia = ocorrencia;
     }
-    public RegistroOcorrencia(int ocorrencia) throws Exception {
+    public RegistroOcorrencia(int ocorrencia) throws Exception//construtor
+    {
         this('\0', ocorrencia);   // "barra zero"
     }
+    public RegistroOcorrencia(char caracter, String ocor)//construtor para trabalhar com o binario
+	{
+	       this.ocor = ocor;
+	       this.caracter = caracter;
+    }
 
-    public char getCaracter() { //pegar caracter
+     public String getOcor() //pegar ocor
+	 {
+	      return ocor;//retorna o ocor
+	 }
+
+	public void setOcor(String ocor)//seta o ocor
+	{
+	     this.ocor = ocor;//seta o ocor no registro
+    }
+
+    public char getCaracter() //pegar caracter
+    {
         return caracter;//retorna o caracter
     }
 
-    public void setCaracter(char caracter) { //seta o caracter
+    public void setCaracter(char caracter)//seta o caracter
+    {
         this.caracter = caracter;//seta o caracter no registro
     }
 
-    public int getOcorrencia() {//pega a ocorrencia
+    public int getOcorrencia()//pega a ocorrencia
+    {
         return ocorrencia;//retorna a ocorrencia
     }
 
-    public void setOcorrencia(int ocorrencia) {//seta a ocorrencia no registro
+    public void setOcorrencia(int ocorrencia) //seta a ocorrencia no registro
+    {
         this.ocorrencia = ocorrencia;
     }
 
@@ -43,31 +70,17 @@ public class RegistroOcorrencia implements Comparable{
 
 		return ret;
 	}
-
-	//qtdCaracter??
-
-	//metodo para remover ocorrencia??
-
-	//metodo para comparar??
-	public int compareTo(Object obj)
+	public int compareTo(Object obj)//metodo compareTo
 	{
 	     RegistroOcorrencia ocorrencia = (RegistroOcorrencia) obj;
 	      if (this.getOcorrencia() < ocorrencia.getOcorrencia())//se a ocorrencia for menor
-	           return -666;
+	           return -666;//retorna nagativo
 	      if (this.getOcorrencia() > ocorrencia.getOcorrencia())//se a ocorrencia for maior
-	           return 666;
+	           return 666;//retorna negativo
 
 	      if (this.getOcorrencia() == ocorrencia.getOcorrencia() && this.getCaracter() == ocorrencia.getCaracter()) // se a ocorrencia é igual
-	           return 0;
+	           return 0;//retorna 0
 
-	        return 0;
+	        return 0;//retorna 0
     }
-
-    public void menorOcorrencia()
-    {
-		//pegar os dois nós de menor ocorrência e montar uma pequena árvore onde eles serão as
-		//folhas e a raiz será um novo nó cujo caracter não existirá e a ocorrência será a soma das ocorrências dos dois
-		//nós-filhos.
-	}
-
 }

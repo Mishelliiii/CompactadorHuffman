@@ -8,26 +8,33 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 
-public class Arvore implements Comparable<Arvore> {
 
+//Essa class serve para trabalhar com a Arvore
+public class Arvore  implements Comparable<Arvore>
+{
      private No raiz;
+     private RegistroOcorrencia informacao;
 
-     public Arvore(No Raiz){
-		Raiz = null;
+     List<No> listaBinario = new ArrayList<No>();
+
+     public RegistroOcorrencia getInformacao()
+     {
+		 return this.informacao;
 	 }
-
-     public No getRaiz(){
+     public No getRaiz()
+     {
          return this.raiz;
      }
 
-     public void incluir (char Car, int Qtos){
+     public void incluir (char Car, int Qtos)
+     {
 
          incluir(new No(new RegistroOcorrencia(Car,Qtos)));// inclui um caracter e quantos no meu registroOcorrencia
      }
 
-     public void incluir (No novo){
+     public void incluir (No novo)
+     {
          if (novo==null) return;// se for null
          if (this.raiz == null)  // primeiro No  (incluir no Nivel ZERO)
               this.raiz = novo;
@@ -35,7 +42,8 @@ public class Arvore implements Comparable<Arvore> {
              incluir(this.raiz, novo);
      }
 
-     private void incluir (No Raiz, No Novo){
+     private void incluir (No Raiz, No Novo)
+     {
          if (Novo.getInformacao().getCaracter() > Raiz.getInformacao().getCaracter()){ // direita
              if (Raiz.getDireita()==null)
                  Raiz.setDireita(Novo);
@@ -50,11 +58,13 @@ public class Arvore implements Comparable<Arvore> {
          }
      }
 
-     public int somaValores(){
+     public int somaValores()
+     {
            return somaTudo(this.raiz);
      }
 
-     private int somaTudo(No Raiz){
+     private int somaTudo(No Raiz)
+     {
          if (Raiz==null) return 0;
          if ((Raiz.getEsquerda()==null) && (Raiz.getDireita()==null))  // Folha
              return Raiz.getInformacao().getOcorrencia();
@@ -64,11 +74,13 @@ public class Arvore implements Comparable<Arvore> {
                 somaTudo(Raiz.getDireita()) + Raiz.getInformacao().getOcorrencia();
      }
 
-     public String toString(){
+     public String toString()
+     {
          return visita(this.raiz);
      }
 
-     private String visita(No Raiz){  // InOrdem
+     private String visita(No Raiz)
+     {  // InOrdem
 
           if (Raiz == null) return "";
 
@@ -77,6 +89,7 @@ public class Arvore implements Comparable<Arvore> {
                  visita(Raiz.getDireita());
      }
 
+
      public boolean equals(Arvore arv)
      {
 		 if(arv == null)
@@ -84,15 +97,60 @@ public class Arvore implements Comparable<Arvore> {
 
 			return true;
 	 }
-	 public int compareTo(Arvore outra){
 
-	     final int frequencia  = Integer.compare(RegistroOcorrencia.getOcorrencia(), outra.getRaiz().getOcorrencia());
-	     if(frequencia != 0 )
-	             return frequencia;
-	     return Integer.compare(this.getRaiz().getCaracter(), outra.getRaiz().getCaracter());
+	private int qtasFolhas(No Raiz)//traz quantas folhas eu tenho
+	{
+	      if (Raiz == null)
+	      		return 0;
+	      if ( (Raiz.getDireita()==null) &&(Raiz.getEsquerda()==null)) // Folha
+	         	return 1;
 
-    }
-    //fazer metodo de arvores como remover e add??
+	         return qtasFolhas(Raiz.getDireita()) + qtasFolhas(Raiz.getEsquerda());
 
+     }
+	 private String cadeAsFolhas(No Raiz)
+	 {
+	      if (Raiz == null) return "";
+	      if ( (Raiz.getDireita()==null) &&
+	            (Raiz.getEsquerda()==null)) // Folha
+	           return "["+Raiz+"] ";
 
+	          return cadeAsFolhas(Raiz.getDireita()) + cadeAsFolhas(Raiz.getEsquerda());
+     }
+     public String quemSaoAsFolhas()
+	 {
+	      return cadeAsFolhas(this.raiz);
+	 }
+
+	 public int compareTo(Arvore ar) //compareTo para que seja possivel ordernar a lista de arvores (List<Arvore>)
+	 {
+	     	final int oc  = Integer.compare(this.raiz.getInformacao().getOcorrencia(), ar.getRaiz().getInformacao().getOcorrencia());
+
+	     	if(oc != 0 )
+	             return oc;
+
+	     	return Integer.compare(this.getRaiz().getInformacao().getCaracter(), ar.getRaiz().getInformacao().getCaracter());
+     }
+
+	public List<No> CriarBin()//retorna os valores binarios
+	{
+	        Binario(this.raiz,"");
+
+	        return listaBinario;
+	}
+
+	private void Binario(No raiz,String s)//
+	{
+	        if (raiz.getEsquerda()== null && raiz.getDireita() == null)
+	        {
+	                listaBinario.add(new No(raiz.getInformacao().getCaracter(),s));
+	                	return;
+	        }
+			if(raiz.getEsquerda() != null)
+	       		 Binario(raiz.getEsquerda(), s + "0");
+
+	        if(raiz.getDireita() != null)
+				Binario(raiz.getDireita(), s + "1");
+
+   }
 }
